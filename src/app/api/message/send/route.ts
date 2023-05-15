@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       'incoming-message',
       message
     );
+    console.log('pusher trigger: incoming-message');
 
     await pusherServer.trigger(
       toPusherKey(`user:${friendId}:chats`),
@@ -64,12 +65,14 @@ export async function POST(req: Request) {
         senderName: sender.name,
       }
     );
+    console.log('pusher trigger: new_message');
 
     // all valid, send the message
     await db.zadd(`chat:${chatId}:messages`, {
       score: timestamp,
       member: JSON.stringify(message),
     });
+    console.log('db add complete');
 
     return new Response('OK');
   } catch (error) {
