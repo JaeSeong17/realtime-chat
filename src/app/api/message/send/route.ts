@@ -65,7 +65,7 @@ export async function POST(req: Request) {
         }
       ),
       // all valid, send the message
-      await db.zadd(`chat:${chatId}:messages`, {
+      db.zadd(`chat:${chatId}:messages`, {
         score: timestamp,
         member: JSON.stringify(message),
       }),
